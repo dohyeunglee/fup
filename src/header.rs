@@ -25,15 +25,13 @@ impl Header {
 }
 
 impl Serializable for Header {
-    fn get_bytes(&self) -> Vec<u8> {
-        let mut bytes: [u8; 16] = [0; 16];
+    fn get_bytes(&self, bytes: &mut [u8]) {
         (&mut bytes[..4]).write_u32::<NativeEndian>(self.MSGID).unwrap();
         (&mut bytes[4..8]).write_u32::<NativeEndian>(self.MSGTYPE).unwrap();
         (&mut bytes[8..12]).write_u32::<NativeEndian>(self.BODYLEN).unwrap();
         bytes[12] = self.FRAGMENTED;
         bytes[13] = self.LASTMSG;
         (&mut bytes[14..]).write_u16::<NativeEndian>(self.SEQ).unwrap();
-        bytes.to_vec()
     }
 
     fn get_size(&self) -> u32 {

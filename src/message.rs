@@ -19,12 +19,10 @@ impl Message {
 }
 
 impl Serializable for Message {
-    fn get_bytes(&self) -> Vec<u8> {
-        let mut bytes: Vec<u8> = vec![0; self.get_size() as usize];
+    fn get_bytes(&self, bytes: &mut [u8]) {
         let header_size = self.header.get_size() as usize;
-        bytes[0..header_size].copy_from_slice(&self.header.get_bytes());
-        bytes[header_size..].copy_from_slice(&self.body.get_bytes());
-        bytes
+        self.header.get_bytes(&mut bytes[0..header_size]);
+        self.body.get_bytes(&mut bytes[header_size..]);
     }
 
 
