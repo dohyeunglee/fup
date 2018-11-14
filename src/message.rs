@@ -3,11 +3,15 @@ use body::Body;
 use Serializable;
 
 pub struct Message {
-    pub header: Header,
-    pub body: Body
+    header: Header,
+    body: Body
 }
 
 impl Message {
+    pub fn new(header: Header, body: Body) -> Message {
+        Message { header, body }
+    }
+
     pub fn get_header(&self) -> &Header {
         &self.header
     }
